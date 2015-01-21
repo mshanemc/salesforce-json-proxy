@@ -1,0 +1,45 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" docType="html-5.0" controller="jsonProxy">
+
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"/>
+	<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+
+	<div ng-app="jp" id="ng-app" xmlns:ng="http://angularjs.org" class="container-fluid">
+		<div ng-controller="jsonProxyCtrl">
+			
+			<table class="table table-striped table-condensed table-bordered">
+				<thead>
+					<tr>
+						<th>field</th>
+						<th>Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(key, value) in stuff">
+						<td>{{key}}</td>
+						<td>{{value}}</td>
+					</tr>
+				</tbody>
+			</table>	
+		</div>
+	</div>
+	
+
+	<script>
+
+		var jsonProxyExample = angular.module('jp', []);
+		
+		jsonProxyExample.controller('jsonProxyCtrl', ['$scope', function($scope) {
+			
+			//remoting class.method(params, callback)
+  			jsonProxy.makeRequest('http://www.telize.com/geoip', function (result, event){
+  				if (result){
+  					console.log(result);
+  					$scope.$apply($scope.stuff = result);
+  				}
+  			});
+			
+		}]);
+
+
+	</script>
+</apex:page>
